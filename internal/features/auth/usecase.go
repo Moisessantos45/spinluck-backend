@@ -55,7 +55,7 @@ func (a *AuthUseCase) createSession(ctx context.Context, user *models.User) (str
 func (a *AuthUseCase) Register(ctx context.Context, email string, password string) error {
 	isProduction := os.Getenv("GO_ENV")
 	var host = os.Getenv("HOST_URL_PROD")
-	if isProduction != "prod" && isProduction != "production" {
+	if isProduction == "dev" {
 		host = os.Getenv("HOST_URL_DEV")
 	}
 
@@ -322,7 +322,7 @@ func (a *AuthUseCase) ForwardEmailVerification(ctx context.Context, email string
 
 	isProduction := os.Getenv("GO_ENV")
 	var host = os.Getenv("HOST_URL_PROD")
-	if isProduction != "prod" && isProduction != "production" {
+	if isProduction == "dev" {
 		host = os.Getenv("HOST_URL_DEV")
 	}
 
@@ -373,7 +373,7 @@ func (a *AuthUseCase) ConfirmAccount(ctx context.Context, userId uint64, token s
 func (a *AuthUseCase) SendPasswordReset(ctx context.Context, email string) error {
 	isProduction := os.Getenv("GO_ENV")
 	var host = os.Getenv("HOST_URL_PROD")
-	if isProduction != "prod" && isProduction != "production" {
+	if isProduction == "dev" {
 		host = os.Getenv("HOST_URL_DEV")
 	}
 
