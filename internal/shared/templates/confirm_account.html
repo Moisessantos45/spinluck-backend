@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirma tu cuenta — SpinLuck</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", Arial, sans-serif;
+        background-color: #0f0f13;
+        color: #1a1a2e;
+      }
+      .wrapper {
+        max-width: 620px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+      }
+      .header {
+        background: linear-gradient(
+          135deg,
+          #4c1d95 0%,
+          #7c3aed 55%,
+          #a855f7 100%
+        );
+        padding: 44px 40px 36px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .header::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .header::after {
+        content: "";
+        position: absolute;
+        bottom: -30px;
+        left: -30px;
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .header-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 100px;
+        padding: 5px 14px;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 18px;
+      }
+      .header-icon {
+        font-size: 38px;
+        margin-bottom: 14px;
+        display: block;
+        line-height: 1;
+      }
+      .header-title {
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+      }
+      .header-subtitle {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 13.5px;
+        margin-top: 6px;
+        font-weight: 400;
+      }
+      .accent-strip {
+        height: 4px;
+        background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+      }
+
+      .content {
+        padding: 44px 40px 36px;
+      }
+      .greeting {
+        font-size: 20px;
+        font-weight: 700;
+        color: #4c1d95;
+        margin-bottom: 14px;
+      }
+      .body-text {
+        font-size: 15px;
+        color: #525252;
+        line-height: 1.75;
+        margin-bottom: 28px;
+      }
+      .cta-wrapper {
+        text-align: center;
+        margin: 36px 0;
+      }
+      .button {
+        background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+        color: #ffffff !important;
+        text-decoration: none;
+        padding: 15px 40px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 700;
+        display: inline-block;
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 16px rgba(124, 58, 237, 0.38);
+      }
+      .info-box {
+        background: #f5f3ff;
+        border-left: 3px solid #7c3aed;
+        border-radius: 0 8px 8px 0;
+        padding: 13px 18px;
+        font-size: 13.5px;
+        color: #4c1d95;
+        margin-bottom: 0;
+        line-height: 1.6;
+      }
+      .note {
+        font-size: 12.5px;
+        color: #a3a3a3;
+        line-height: 1.65;
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid #f0f0f0;
+        text-align: center;
+      }
+      .footer {
+        background: #1a1030;
+        padding: 30px 40px;
+        text-align: center;
+      }
+      .footer-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      .footer-logo-spin {
+        color: #a855f7;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+      }
+      .footer-logo-luck {
+        color: #fbbf24;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+      }
+      .footer-brand {
+        color: rgba(255, 255, 255, 0.35);
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 14px;
+        display: block;
+      }
+      .footer-divider {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin: 16px 0;
+      }
+      .footer-copy {
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="header">
+        <div class="header-badge">✦ SpinLuck</div>
+        <span class="header-icon">
+          <svg
+            width="42"
+            height="34"
+            viewBox="0 0 42 34"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4 0L21 17.0588L38 0V11.3725L21 28.4314L4 11.3725V0Z"
+              fill="#FFFFFF"
+            />
+            <path
+              d="M4 17.0588V28.4314L21 11.3725L38 28.4314V17.0588L21 4L4 17.0588Z"
+              fill="#FFFFFF"
+              fill-opacity="0.6"
+            />
+          </svg>
+        </span>
+        <div class="header-title">Confirma tu correo electrónico</div>
+        <div class="header-subtitle">Un último paso para activar tu cuenta</div>
+      </div>
+      <div class="accent-strip"></div>
+
+      <div class="content">
+        <p class="greeting">¡Hola, {{.Name}}!</p>
+        <p class="body-text">
+          Gracias por registrarte en <strong>SpinLuck</strong>, la plataforma de
+          gestión de rifas de <strong>Mmabitec</strong>. Para completar tu
+          registro y comenzar a crear o participar en sorteos, necesitamos
+          verificar tu dirección de correo electrónico.
+        </p>
+        <div class="cta-wrapper">
+          <a href="{{.ConfirmLink}}" class="button">Confirmar mi cuenta</a>
+        </div>
+        <div class="info-box">
+          Este enlace estará disponible durante <strong>24 horas</strong>. Si
+          expira, podrás solicitar uno nuevo desde la plataforma.
+        </div>
+        <p class="note">
+          Si no creaste una cuenta en SpinLuck, puedes ignorar este correo con
+          total seguridad. Tu información no será compartida con nadie.
+        </p>
+      </div>
+
+      <div class="footer">
+        <div class="footer-logo">
+          <span class="footer-logo-spin">Spin</span
+          ><span class="footer-logo-luck">Luck</span>
+        </div>
+        <span class="footer-brand">by Mmabitec</span>
+        <hr class="footer-divider" />
+        <p class="footer-copy">
+          ©2026 Mmabitec · Todos los derechos reservados
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

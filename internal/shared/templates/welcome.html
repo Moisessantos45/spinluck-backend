@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¡Bienvenido! — SpinLuck</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", Arial, sans-serif;
+        background-color: #0f0f13;
+        color: #1a1a2e;
+      }
+      .wrapper {
+        max-width: 620px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+      }
+      .header {
+        background: linear-gradient(
+          135deg,
+          #3b0764 0%,
+          #6d28d9 50%,
+          #a855f7 100%
+        );
+        padding: 48px 40px 38px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .header::before {
+        content: "";
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .header::after {
+        content: "";
+        position: absolute;
+        bottom: -40px;
+        left: -40px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .header-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 100px;
+        padding: 5px 14px;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 18px;
+      }
+      .header-icon {
+        font-size: 44px;
+        margin-bottom: 14px;
+        display: block;
+        line-height: 1;
+      }
+      .header-title {
+        color: #ffffff;
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: -0.4px;
+      }
+      .header-subtitle {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 13.5px;
+        margin-top: 6px;
+        font-weight: 400;
+      }
+      .accent-strip {
+        height: 4px;
+        background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+      }
+      .content {
+        padding: 44px 40px 36px;
+      }
+      .greeting {
+        font-size: 22px;
+        font-weight: 800;
+        color: #4c1d95;
+        margin-bottom: 14px;
+      }
+      .body-text {
+        font-size: 15px;
+        color: #525252;
+        line-height: 1.75;
+        margin-bottom: 28px;
+      }
+      .features-list {
+        margin: 24px 0 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: #faf8ff;
+        border: 1px solid #ede9fe;
+        border-radius: 10px;
+        padding: 14px 18px;
+      }
+      .feature-emoji {
+        font-size: 22px;
+        line-height: 1.2;
+        flex-shrink: 0;
+      }
+      .feature-text {
+        font-size: 14px;
+        color: #444444;
+        line-height: 1.6;
+        padding-top: 2px;
+      }
+      .cta-wrapper {
+        text-align: center;
+        margin: 36px 0 8px;
+      }
+      .button {
+        background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+        color: #ffffff !important;
+        text-decoration: none;
+        padding: 15px 44px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 700;
+        display: inline-block;
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 16px rgba(124, 58, 237, 0.38);
+      }
+      /* ── FOOTER ── */
+      .footer {
+        background: #1a1030;
+        padding: 30px 40px;
+        text-align: center;
+        margin-top: 16px;
+      }
+      .footer-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      .footer-logo-spin {
+        color: #a855f7;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+      }
+      .footer-logo-luck {
+        color: #fbbf24;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+      }
+      .footer-brand {
+        color: rgba(255, 255, 255, 0.35);
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 14px;
+        display: block;
+      }
+      .footer-divider {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin: 16px 0;
+      }
+      .footer-copy {
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="header">
+        <div class="header-badge">✦ SpinLuck</div>
+        <span class="header-icon">
+          <svg
+            width="42"
+            height="34"
+            viewBox="0 0 42 34"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21 4L4 17.0588V28.4314L21 41.4899L38 28.4314V17.0588L21 4Z"
+              fill="#FFFFFF"
+            />
+            <path
+              d="M4 17.0588V28.4314L21 11.3725L38 28.4314V17.0588L21 4L4 17.0588Z"
+              fill="#FFFFFF"
+              fill-opacity="0.6"
+            />
+          </svg>
+        </span>
+        <div class="header-title">¡Tu cuenta está activa!</div>
+        <div class="header-subtitle">Ya formas parte de SpinLuck</div>
+      </div>
+      <div class="accent-strip"></div>
+
+      <div class="content">
+        <p class="greeting">¡Hola, {{.Name}}!</p>
+        <p class="body-text">
+          Nos da mucho gusto darte la bienvenida a <strong>SpinLuck</strong>, el
+          sistema de gestión de rifas de <strong>Mmabitec</strong>. Tu cuenta ha
+          sido creada exitosamente y ya tienes acceso completo a la plataforma.
+        </p>
+
+        <div class="features-list">
+          <div class="feature-item">
+            <span class="feature-emoji">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M16 3C10.4772 3 6 7.47715 6 13V16H5C4.44772 16 4 16.4477 4 17V29C4 29.5523 4.44772 30 5 30H27C27.5523 30 28 29.5523 28 29V17C28 16.4477 27.5523 16 27 16H26V13C26 7.47715 21.5228 3 16 3ZM16 5C20.4183 5 24 8.58172 24 13V16H8V13C8 8.58172 11.5817 5 16 5ZM8 18H24V28H8V18Z"
+                  fill="#6d28d9"
+                />
+              </svg>
+            </span>
+            <div class="feature-text">
+              Crea y administra <strong>rifas y sorteos</strong> de forma
+              sencilla e intuitiva.
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-emoji">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M17.3333 3H6.66667C5.19391 3 4 4.19391 4 5.66667V12H28V5.66667C28 4.19391 26.8061 3 25.3333 3H17.3333ZM6.66667 14V26.3333C6.66667 27.8061 7.85958 29 9.33333 29H22.6667C24.1404 29 25.3333 27.8061 25.3333 26.3333V14H6.66667ZM9.33333 16H22.6667V27.3333H9.33333V16ZM17.3333 3H6.66667C5.19391 3 4 4.19391 4 5.66667V12H28V5.66667C28 4.19391 26.8061 3 25.3333 3H17.3333ZM16 22H14V19H16V22ZM18 22H20V19H18V22Z"
+                  fill="#6d28d9"
+                />
+              </svg>
+            </span>
+            <div class="feature-text">
+              Gestiona <strong>boletos, premios y ganadores</strong> desde un
+              solo panel de control.
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-emoji">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M16 3C10.4772 3 6 7.47715 6 13V16H5C4.44772 16 4 16.4477 4 17V29C4 29.5523 4.44772 30 5 30H27C27.5523 30 28 29.5523 28 29V17C28 16.4477 27.5523 16 27 16H26V13C26 7.47715 21.5228 3 16 3ZM16 5C20.4183 5 24 8.58172 24 13V16H8V13C8 8.58172 11.5817 5 16 5ZM8 18H24V28H8V18Z"
+                  fill="#6d28d9"
+                />
+              </svg>
+            </span>
+            <div class="feature-text">
+              Accede a <strong>estadísticas y reportes</strong> en tiempo real
+              sobre tus sorteos.
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-wrapper">
+          <a href="{{.LoginLink}}" class="button">Ir a mi cuenta</a>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-logo">
+          <span class="footer-logo-spin">Spin</span
+          ><span class="footer-logo-luck">Luck</span>
+        </div>
+        <span class="footer-brand">by Mmabitec</span>
+        <hr class="footer-divider" />
+        <p class="footer-copy">
+          ©2026 Mmabitec · Todos los derechos reservados
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
