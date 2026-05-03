@@ -21,6 +21,7 @@ func TicketRoutes(rg *gin.RouterGroup) {
 	h := ticket.NewTicketHandler(uc)
 
 	rg.GET("/ticket/raffle/:raffleID/available", h.GetRandomAvailableTicket)
+	rg.GET("/ticket/raffle/:raffleID/search", h.FindByNumberAndRaffleID)
 
 	protected := rg.Group("/ticket")
 	protected.Use(middleware.AuthMiddleware(maker, rd))
