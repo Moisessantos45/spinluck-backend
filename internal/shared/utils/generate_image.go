@@ -15,6 +15,7 @@ import (
 
 type TicketData struct {
 	TicketID string `json:"ticket_id"`
+	Number   string `json:"number"`
 	Amount   string `json:"amount"`
 	DateTime string `json:"date_time"`
 	FullName string `json:"full_name"`
@@ -28,7 +29,6 @@ type LinearGradient struct {
 func (g *LinearGradient) ColorModel() color.Model { return color.RGBAModel }
 func (g *LinearGradient) Bounds() image.Rectangle { return g.Rect }
 func (g *LinearGradient) At(x, y int) color.Color {
-	// Calculamos el ratio basado en la altura relativa del rectángulo del ticket
 	ratio := float64(y-g.Rect.Min.Y) / float64(g.Rect.Dy())
 	if ratio < 0 {
 		ratio = 0
@@ -102,14 +102,26 @@ func GenerateTicketImage(data TicketData) ([]byte, error) {
 	addLabel(img, 70, 180, "TICKET ID", labelColor)
 	addLabel(img, 70, 205, data.TicketID, textColor)
 
-	addLabel(img, 70, 270, "TOTAL", labelColor)
-	addLabel(img, 70, 295, "$"+data.Amount, textColor)
+	addLabel(img, 70, 250, "NUMERO", labelColor)
+	addLabel(img, 70, 275, data.Number, textColor)
 
-	addLabel(img, 70, 360, "FECHA", labelColor)
-	addLabel(img, 70, 385, data.DateTime, textColor)
+	addLabel(img, 70, 320, "TOTAL", labelColor)
+	addLabel(img, 70, 345, "$"+data.Amount, textColor)
 
-	addLabel(img, 70, 450, "CLIENTE", labelColor)
-	addLabel(img, 70, 475, data.FullName, textColor)
+	addLabel(img, 70, 400, "FECHA", labelColor)
+	addLabel(img, 70, 425, data.DateTime, textColor)
+
+	addLabel(img, 70, 480, "CLIENTE", labelColor)
+	addLabel(img, 70, 505, data.FullName, textColor)
+
+	// addLabel(img, 70, 270, "TOTAL", labelColor)
+	// addLabel(img, 70, 295, "$"+data.Amount, textColor)
+
+	// addLabel(img, 70, 360, "FECHA", labelColor)
+	// addLabel(img, 70, 385, data.DateTime, textColor)
+
+	// addLabel(img, 70, 450, "CLIENTE", labelColor)
+	// addLabel(img, 70, 475, data.FullName, textColor)
 
 	var buf bytes.Buffer
 	if err := png.Encode(&buf, img); err != nil {
