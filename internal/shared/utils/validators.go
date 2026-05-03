@@ -34,6 +34,21 @@ func ValidateParamsId(c *gin.Context, params string) (uint64, error) {
 	return id, nil
 }
 
+func ValidateParamsQuery(c *gin.Context, paramName string) (uint64, error) {
+	paramStr := c.DefaultQuery(paramName, "0")
+
+	if len(strings.TrimSpace(paramStr)) == 0 {
+		return 0, fmt.Errorf("Parámetro de consulta '%s' no proporcionado", paramName)
+	}
+
+	param, err := strconv.ParseUint(paramStr, 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("Parámetro de consulta '%s' inválido: %v", paramName, err)
+	}
+
+	return param, nil
+}
+
 func ExtractedParamsJwt(c *gin.Context) (string, uint64, error) {
 	userIDIface, exists := c.Get("userID")
 	if !exists {
