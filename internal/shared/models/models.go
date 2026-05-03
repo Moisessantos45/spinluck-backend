@@ -118,6 +118,7 @@ type Ticket struct {
 	TicketStatusID   uint64 `json:"ticket_status_id" gorm:"not null;default:2"`
 	Winner           bool   `json:"winner" gorm:"default:false"`
 	OrganizerNumber  string `json:"organizer_number" gorm:"-"`
+	FormattedNumber  string `json:"formatted_number" gorm:"-"`
 
 	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
