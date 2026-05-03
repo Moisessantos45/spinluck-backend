@@ -13,13 +13,16 @@ type TicketWithOrganizerNumber struct {
 	Number          uint64 `gorm:"column:number" json:"number"`
 	Slug            string `gorm:"column:slug" json:"slug"`
 	OrganizerNumber string `gorm:"column:organizer_number" json:"organizer_number"`
+	FormattedNumber string `json:"formatted_number" gorm:"column:formatted_number"`
 }
 
 type TicketVoucherData struct {
-	Slug     string `json:"slug" gorm:"column:slug"`
-	TicketID uint64 `json:"ticket_id" gorm:"column:ticket_id"`
-	Amount   uint64 `json:"amount" gorm:"column:amount"`
-	FullName string `json:"full_name" gorm:"column:full_name"`
+	Slug            string `json:"slug" gorm:"column:slug"`
+	TicketID        uint64 `json:"ticket_id" gorm:"column:ticket_id"`
+	Number          uint64 `json:"number" gorm:"column:number"`
+	FormattedNumber string `json:"formatted_number" gorm:"column:formatted_number"`
+	Amount          uint64 `json:"amount" gorm:"column:amount"`
+	FullName        string `json:"full_name" gorm:"column:full_name"`
 }
 
 type TicketRepository interface {
@@ -32,6 +35,7 @@ type TicketRepository interface {
 	GetVoucherDataByID(ctx context.Context, id uint64) (*TicketVoucherData, error)
 	GetRandomSoldTicket(ctx context.Context, raffleID uint64) (*models.Ticket, error)
 	GetRandomAvailableTicket(ctx context.Context, raffleID uint64) (*TicketWithOrganizerNumber, error)
+	FindByNumberAndRaffleID(ctx context.Context, number uint64, raffleID uint64) (*TicketWithOrganizerNumber, error)
 
 	Create(ctx context.Context, ticket *models.Ticket) error
 	Update(ctx context.Context, id uint64, data map[string]any) error
@@ -47,6 +51,7 @@ type TicketService interface {
 	GetByID(ctx context.Context, id uint64, userID uint64) (*models.Ticket, error)
 	GetRandomSoldTicket(ctx context.Context, userID uint64, raffleID uint64) (*models.Ticket, error)
 	GetRandomAvailableTicket(ctx context.Context, raffleID uint64) (*TicketWithOrganizerNumber, error)
+	FindByNumberAndRaffleID(ctx context.Context, number uint64, raffleID uint64) (*TicketWithOrganizerNumber, error)
 	GenerateVoucher(ctx context.Context, ticketID uint64, userID uint64) ([]byte, error)
 
 	Create(ctx context.Context, number uint64, participantName, participantPhone string, raffleID uint64) (*models.Ticket, error)

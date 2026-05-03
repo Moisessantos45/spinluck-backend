@@ -79,6 +79,28 @@ func (h *TicketHandler) GetAllByRaffleIDToOrgaizer(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": tickets, "message": "Tickets fetched successfully"})
 }
 
+func (h *TicketHandler) FindByNumberAndRaffleID(c *gin.Context) {
+	raffleID, err := utils.ValidateParamsId(c, "raffleID")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid raffle ID: " + err.Error()})
+		return
+	}
+
+	number, err := utils.ValidateParamsQuery(c, "number")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid number: " + err.Error()})
+		return
+	}
+
+	ticket, err := h.service.FindByNumberAndRaffleID(c.Request.Context(), number, raffleID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching ticket: " + err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": ticket, "message": "Ticket fetched successfully"})
+}
+
 func (h *TicketHandler) GenerateVoucher(c *gin.Context) {
 	_, userID, err := utils.ExtractedParamsJwt(c)
 	if err != nil {

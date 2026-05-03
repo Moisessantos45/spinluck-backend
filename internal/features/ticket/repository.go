@@ -3,6 +3,8 @@ package ticket
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
 	"spinLuck/internal/shared/models"
 
 	"gorm.io/gorm"
@@ -50,6 +52,10 @@ func (r *PostgresRepository) GetAllByRaffleIDToOrgaizer(ctx context.Context, raf
 		return nil, err
 	}
 
+	for i := range tickets {
+		tickets[i].FormattedNumber = fmt.Sprintf("%03d", tickets[i].Number)
+	}
+
 	return tickets, nil
 }
 
@@ -69,6 +75,9 @@ func (r *PostgresRepository) GetByID(ctx context.Context, id uint64, organizerID
 		First(&ticket, id).Error; err != nil {
 		return nil, err
 	}
+
+	ticket.FormattedNumber = fmt.Sprintf("%03d", ticket.Number)
+
 	return &ticket, nil
 }
 
@@ -91,7 +100,7 @@ func (r *PostgresRepository) GetVoucherDataByID(ctx context.Context, id uint64) 
 	var data TicketVoucherData
 	err := r.db.WithContext(ctx).
 		Model(&models.Ticket{}).
-		Select("tickets.id as ticket_id, raffles.price as amount, tickets.participant_name as full_name, raffles.slug as slug").
+		Select("tickets.id as ticket_id, raffles.price as amount, tickets.participant_name as full_name,tickets.number as number, raffles.slug as slug").
 		Joins("JOIN raffles ON raffles.id = tickets.raffle_id").
 		Where("tickets.id = ?", id).
 		Scan(&data).Error
@@ -99,6 +108,8 @@ func (r *PostgresRepository) GetVoucherDataByID(ctx context.Context, id uint64) 
 	if err != nil {
 		return nil, err
 	}
+
+	data.FormattedNumber = fmt.Sprintf("%03d", data.Number)
 
 	return &data, nil
 }
@@ -116,7 +127,7 @@ func (r *PostgresRepository) GetRandomSoldTicket(ctx context.Context, raffleID u
             END as max_winners_reached
         FROM raffles r
         LEFT JOIN tickets t ON r.id = t.raffle_id AND t.winner = true
-        WHERE r.id = ?
+        WHERE r.id = ? AND r.raffle_status_id = 1 ? AND r.date <= CURRENT_DATE
         GROUP BY r.id, r.max_winners
     `, raffleID).Scan(&maxReached).Error
 
@@ -143,6 +154,8 @@ func (r *PostgresRepository) GetRandomSoldTicket(ctx context.Context, raffleID u
 		return nil, err
 	}
 
+	ticket.FormattedNumber = fmt.Sprintf("%03d", ticket.Number)
+
 	return &ticket, nil
 }
 
@@ -160,7 +173,7 @@ func (r *PostgresRepository) GetRandomAvailableTicket(ctx context.Context, raffl
 			INNER JOIN raffles rf ON rf.id = tickets.raffle_id
 			INNER JOIN organizers org ON org.id = rf.organizer_id
 			WHERE tickets.raffle_id = ? AND rf.raffle_status_id = 1
-			  AND tickets.ticket_status_id = 2
+			  AND tickets.ticket_status_id = 2 ? AND rf.date <= CURRENT_DATE
 			ORDER BY RANDOM()
 			LIMIT 1
 		`, raffleID).
@@ -169,6 +182,36 @@ func (r *PostgresRepository) GetRandomAvailableTicket(ctx context.Context, raffl
 	if err != nil {
 		return nil, err
 	}
+
+	ticket.FormattedNumber = fmt.Sprintf("%03d", ticket.Number)
+
+	return &ticket, nil
+}
+
+func (r *PostgresRepository) FindByNumberAndRaffleID(ctx context.Context, number uint64, raffleID uint64) (*TicketWithOrganizerNumber, error) {
+	var ticket TicketWithOrganizerNumber
+
+	err := r.db.WithContext(ctx).
+		Raw(`
+			SELECT
+				tickets.id,
+				tickets.number,
+				rf.slug,
+				org.phone AS organizer_number
+			FROM tickets
+			INNER JOIN raffles rf ON rf.id = tickets.raffle_id
+			INNER JOIN organizers org ON org.id = rf.organizer_id
+			WHERE tickets.number = ? AND tickets.raffle_id = ? AND rf.raffle_status_id = 1
+			  AND rf.date <= CURRENT_DATE AND tickets.ticket_status_id = 2
+		`, number, raffleID).
+		Scan(&ticket).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	log.Printf("Número de ticket encontrado: %d", ticket.Number)
+	ticket.FormattedNumber = fmt.Sprintf("%03d", ticket.Number)
 
 	return &ticket, nil
 }

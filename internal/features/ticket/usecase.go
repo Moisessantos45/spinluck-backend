@@ -68,6 +68,18 @@ func (uc *TicketUseCase) GetRandomAvailableTicket(ctx context.Context, raffleID 
 	return uc.repo.GetRandomAvailableTicket(ctx, raffleID)
 }
 
+func (uc *TicketUseCase) FindByNumberAndRaffleID(ctx context.Context, number uint64, raffleID uint64) (*TicketWithOrganizerNumber, error) {
+	if number == 0 {
+		return nil, errors.New("el número del ticket es inválido")
+	}
+
+	if raffleID == 0 {
+		return nil, errors.New("el ID de la rifa es inválido")
+	}
+
+	return uc.repo.FindByNumberAndRaffleID(ctx, number, raffleID)
+}
+
 func (uc *TicketUseCase) GenerateVoucher(ctx context.Context, ticketID uint64, userID uint64) ([]byte, error) {
 	organizer, err := uc.rpOrg.GetByUserID(userID)
 	if err != nil {
@@ -94,6 +106,7 @@ func (uc *TicketUseCase) GenerateVoucher(ctx context.Context, ticketID uint64, u
 
 	data := utils.TicketData{
 		TicketID: ticket.Slug,
+		Number:   ticket.FormattedNumber,
 		Amount:   fmt.Sprintf("%d", ticket.Amount),
 		DateTime: time.Now().Format("02 JAN, 2006 | 15:04"),
 		FullName: ticket.FullName,
