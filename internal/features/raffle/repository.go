@@ -133,7 +133,7 @@ func (r *PostgresRepository) GetBySlug(ctx context.Context, slug string) (*model
 	var raffle models.Raffle
 
 	if err := r.db.WithContext(ctx).
-		Where("slug = ? AND raffle_status_id = ?", slug, 1).
+		Where("slug = ? AND raffle_status_id = ? AND date <= CURRENT_DATE", slug, 1).
 		First(&raffle).Error; err != nil {
 		return nil, err
 	}
