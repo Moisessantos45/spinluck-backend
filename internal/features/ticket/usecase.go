@@ -37,6 +37,14 @@ func (uc *TicketUseCase) GetAllByRaffleIDToOrgaizer(ctx context.Context, raffleI
 	return uc.repo.GetAllByRaffleIDToOrgaizer(ctx, raffleID, organizer.ID)
 }
 
+func (uc *TicketUseCase) GetAllByRaffleIDPublic(ctx context.Context, raffleID uint64) ([]TicketPublicData, error) {
+	if raffleID == 0 {
+		return nil, errors.New("el ID de la rifa es inválido")
+	}
+
+	return uc.repo.GetAllByRaffleIDPublic(ctx, raffleID)
+}
+
 func (uc *TicketUseCase) GetByID(ctx context.Context, id uint64, userID uint64) (*models.Ticket, error) {
 	organizer, err := uc.rpOrg.GetByUserID(userID)
 	if err != nil {

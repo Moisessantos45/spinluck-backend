@@ -59,6 +59,25 @@ func (r *PostgresRepository) GetAllByRaffleIDToOrgaizer(ctx context.Context, raf
 	return tickets, nil
 }
 
+func (r *PostgresRepository) GetAllByRaffleIDPublic(ctx context.Context, raffleID uint64) ([]TicketPublicData, error) {
+	var tickets []TicketPublicData
+
+	if err := r.db.WithContext(ctx).
+		Model(&models.Ticket{}).
+		Select("tickets.id, number, ticket_status_id").
+		Joins("JOIN raffles ON raffles.id = tickets.raffle_id").
+		Where("raffle_id = ? AND raffles.raffle_status_id = 1 AND raffles.date >=CURRENT_DATE", raffleID).
+		Find(&tickets).Error; err != nil {
+		return nil, err
+	}
+
+	for i := range tickets {
+		tickets[i].FormattedNumber = fmt.Sprintf("%03d", tickets[i].Number)
+	}
+
+	return tickets, nil
+}
+
 func (r *PostgresRepository) GetByID(ctx context.Context, id uint64, organizerID uint64) (*models.Ticket, error) {
 	var ticket models.Ticket
 	if err := r.db.

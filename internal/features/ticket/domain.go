@@ -25,10 +25,18 @@ type TicketVoucherData struct {
 	FullName        string `json:"full_name" gorm:"column:full_name"`
 }
 
+type TicketPublicData struct {
+	ID              uint64 `gorm:"column:id" json:"id"`
+	Number          uint64 `gorm:"column:number" json:"number"`
+	FormattedNumber string `json:"formatted_number" gorm:"column:formatted_number"`
+	TicketStatusID  uint64 `gorm:"column:ticket_status_id" json:"ticket_status_id"`
+}
+
 type TicketRepository interface {
 	GetAllStatus(ctx context.Context) ([]models.TicketStatus, error)
 	GetAll(ctx context.Context) ([]models.Ticket, error)
 	GetAllByRaffleIDToOrgaizer(ctx context.Context, raffleID uint64, organizerID uint64) ([]models.Ticket, error)
+	GetAllByRaffleIDPublic(ctx context.Context, raffleID uint64) ([]TicketPublicData, error)
 
 	IsTicketFromOrganizer(ctx context.Context, ticketID uint64, organizerID uint64) (bool, error)
 	GetByID(ctx context.Context, id uint64, organizerID uint64) (*models.Ticket, error)
@@ -47,6 +55,7 @@ type TicketService interface {
 	GetAllStatus(ctx context.Context) ([]models.TicketStatus, error)
 	GetAll(ctx context.Context) ([]models.Ticket, error)
 	GetAllByRaffleIDToOrgaizer(ctx context.Context, raffleID uint64, userID uint64) ([]models.Ticket, error)
+	GetAllByRaffleIDPublic(ctx context.Context, raffleID uint64) ([]TicketPublicData, error)
 
 	GetByID(ctx context.Context, id uint64, userID uint64) (*models.Ticket, error)
 	GetRandomSoldTicket(ctx context.Context, userID uint64, raffleID uint64) (*models.Ticket, error)

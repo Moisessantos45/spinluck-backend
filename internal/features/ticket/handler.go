@@ -35,6 +35,22 @@ func (h *TicketHandler) GetAll(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": tickets, "message": "Tickets fetched successfully"})
 }
 
+func (h *TicketHandler) GetAllByRaffleIDPublic(c *gin.Context) {
+	raffleID, err := utils.ValidateParamsId(c, "raffleID")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid raffle ID: " + err.Error()})
+		return
+	}
+
+	tickets, err := h.service.GetAllByRaffleIDPublic(c.Request.Context(), raffleID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching tickets: " + err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": tickets, "message": "Tickets fetched successfully"})
+}
+
 func (h *TicketHandler) GetByID(c *gin.Context) {
 	_, userID, err := utils.ExtractedParamsJwt(c)
 	if err != nil {
