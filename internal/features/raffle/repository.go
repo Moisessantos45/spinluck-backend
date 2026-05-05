@@ -129,24 +129,29 @@ func (r *PostgresRepository) GetInfoBasicByID(ctx context.Context, id uint64, or
 }
 
 func (r *PostgresRepository) GetBySlug(ctx context.Context, slug string) (*models.Raffle, error) {
-	var count int64
 	var raffle models.Raffle
 
 	if err := r.db.WithContext(ctx).
-		Where("slug = ? AND raffle_status_id = ? AND date <= CURRENT_DATE", slug, 1).
+		Where("slug = ? AND raffle_status_id = ? AND date >=CURRENT_DATE", slug, 1).
 		First(&raffle).Error; err != nil {
 		return nil, err
 	}
 
-	err := r.db.WithContext(ctx).
+	sold := int64(0)
+	if err := r.db.WithContext(ctx).
 		Model(&models.Ticket{}).
 		Where("raffle_id = ? AND ticket_status_id = ?", raffle.ID, 1).
-		Count(&count).Error
-	if err != nil {
+		Count(&sold).Error; err != nil {
 		return nil, err
 	}
 
-	raffle.TicketsAvailable = raffle.QuantityTickets - uint64(count)
+	var available uint64
+	if uint64(sold) > raffle.QuantityTickets {
+		available = 0
+	} else {
+		available = raffle.QuantityTickets - uint64(sold)
+	}
+	raffle.TicketsAvailable = available
 
 	return &raffle, nil
 }

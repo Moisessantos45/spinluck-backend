@@ -127,7 +127,7 @@ func (r *PostgresRepository) GetRandomSoldTicket(ctx context.Context, raffleID u
             END as max_winners_reached
         FROM raffles r
         LEFT JOIN tickets t ON r.id = t.raffle_id AND t.winner = true
-        WHERE r.id = ? AND r.raffle_status_id = 1 ? AND r.date <= CURRENT_DATE
+        WHERE r.id = ? AND r.raffle_status_id = 1 ? AND r.date >= CURRENT_DATE
         GROUP BY r.id, r.max_winners
     `, raffleID).Scan(&maxReached).Error
 
@@ -173,7 +173,7 @@ func (r *PostgresRepository) GetRandomAvailableTicket(ctx context.Context, raffl
 			INNER JOIN raffles rf ON rf.id = tickets.raffle_id
 			INNER JOIN organizers org ON org.id = rf.organizer_id
 			WHERE tickets.raffle_id = ? AND rf.raffle_status_id = 1
-			  AND tickets.ticket_status_id = 2 ? AND rf.date <= CURRENT_DATE
+			  AND tickets.ticket_status_id = 2 ? AND rf.date >= CURRENT_DATE
 			ORDER BY RANDOM()
 			LIMIT 1
 		`, raffleID).
@@ -202,7 +202,7 @@ func (r *PostgresRepository) FindByNumberAndRaffleID(ctx context.Context, number
 			INNER JOIN raffles rf ON rf.id = tickets.raffle_id
 			INNER JOIN organizers org ON org.id = rf.organizer_id
 			WHERE tickets.number = ? AND tickets.raffle_id = ? AND rf.raffle_status_id = 1
-			  AND rf.date <= CURRENT_DATE AND tickets.ticket_status_id = 2
+			  AND rf.date >= CURRENT_DATE AND tickets.ticket_status_id = 2
 		`, number, raffleID).
 		Scan(&ticket).Error
 
